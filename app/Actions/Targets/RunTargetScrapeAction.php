@@ -5,18 +5,11 @@ namespace App\Actions\Targets;
 use App\Models\Target;
 use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\ScraperRegistry;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class RunTargetScrapeAction implements ShouldQueue
+class RunTargetScrapeAction
 {
     use AsAction;
-    use InteractsWithQueue, Queueable, SerializesModels;
-
-    public string $queue = 'default';
 
     public function __construct(public ScraperRegistry $registry) {}
 
@@ -28,7 +21,6 @@ class RunTargetScrapeAction implements ShouldQueue
             targetId: $target->id,
             url: $target->url,
             blueprint: $target->blueprint ?? [],
-            currencyHint: null,
             context: [],
         );
 

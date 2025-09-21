@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\Drivers\ChromeScraperDriver;
+use App\Scraping\Drivers\Chrome\ChromeScraperDriver;
+use App\Scraping\Drivers\Subito\SubitoScraperDriver;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -12,10 +13,8 @@ class ScrapingServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Register concrete drivers and tag them so they can be injected as a group.
-        $this->app->singleton(ChromeScraperDriver::class, fn () => new ChromeScraperDriver);
-
         $this->app->tag([
+            SubitoScraperDriver::class,
             ChromeScraperDriver::class,
         ], 'scraper.drivers');
 

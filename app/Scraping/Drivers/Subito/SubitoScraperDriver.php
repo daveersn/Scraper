@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Scraping\Drivers;
+namespace App\Scraping\Drivers\Subito;
 
 use App\Scraping\Contracts\ScraperDriver;
 use App\Scraping\DTO\ScrapedItemData;
 use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\Support\BlueprintInterpreter;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
-class ChromeScraperDriver implements ScraperDriver
+class SubitoScraperDriver implements ScraperDriver
 {
     public function __construct(
         protected ?BlueprintInterpreter $interpreter = null,
@@ -27,15 +26,6 @@ class ChromeScraperDriver implements ScraperDriver
      */
     public function fetchItems(ScrapeRequestData $request): array
     {
-        // Config & per-target overrides
-        $cfg = config('scraping.chrome');
-        $waitSelector = Arr::get($request->blueprint, 'wait_selector', $cfg['wait_selector']);
-        $navDelayMs = (int) Arr::get($request->blueprint, 'navigation_delay_ms', $cfg['navigation_delay_ms']);
-        $maxPages = (int) Arr::get($request->blueprint, 'pagination.max_pages', $cfg['pagination_max_pages']);
-        $throttleMs = (int) $cfg['throttle_ms'];
-
-        $items = [];
-
         Log::info('chrome.start', ['target' => $request->targetId]);
 
         // Scaffold only: do not actually launch Chrome here.
