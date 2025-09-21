@@ -56,6 +56,17 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## Scraper Backend (Lean Foundations)
+
+This project includes the backend foundations for a lean price‑tracking scraper. There is no scraping logic or drivers yet. The `App\Actions\Targets\RunScrapeAction` accepts an array of structured `App\Scraping\DTOs\ScrapedItemData` and performs persistence/upsert logic only.
+
+Run locally:
+- Migrate: `php artisan migrate`
+- Queue worker (database driver): `php artisan queue:work --queue=default --tries=3`
+- Scheduler: `php artisan schedule:work` (or rely on system cron)
+
+Targets are enqueued every minute via the scheduled `enqueue:due-targets` action. URL normalization and hashing are handled by `App\Support\UrlNormalizer`.
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
