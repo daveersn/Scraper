@@ -2,8 +2,8 @@
 
 namespace App\Scraping\Contracts;
 
-use App\Scraping\DTOs\ScrapedItemData;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapedItemData;
+use App\Scraping\DTO\ScrapeRequestData;
 
 interface ScraperDriver
 {

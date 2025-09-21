@@ -3,7 +3,7 @@
 namespace App\Scraping;
 
 use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapeRequestData;
 
 class ScraperRegistry
 {

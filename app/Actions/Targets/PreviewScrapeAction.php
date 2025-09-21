@@ -3,8 +3,8 @@
 namespace App\Actions\Targets;
 
 use App\Models\Target;
-use App\Scraping\DTOs\ScrapedItemData;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapedItemData;
+use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Console\Command;
 use Lorisleiva\Actions\Concerns\AsAction;

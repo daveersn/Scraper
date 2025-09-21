@@ -2,8 +2,8 @@
 
 namespace App\Scraping\Support;
 
-use App\Scraping\DTOs\ScrapedItemData;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapedItemData;
+use App\Scraping\DTO\ScrapeRequestData;
 
 /**
  * Minimal blueprint interpreter skeleton.

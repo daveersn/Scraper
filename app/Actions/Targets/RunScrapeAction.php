@@ -5,7 +5,7 @@ namespace App\Actions\Targets;
 use App\Models\Item;
 use App\Models\ItemPrice;
 use App\Models\Target;
-use App\Scraping\DTOs\ScrapedItemData;
+use App\Scraping\DTO\ScrapedItemData;
 use App\Support\UrlNormalizer;
 use Cron\CronExpression;
 use Illuminate\Support\Carbon;

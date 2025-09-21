@@ -3,8 +3,8 @@
 namespace App\Scraping\Drivers;
 
 use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\DTOs\ScrapedItemData;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapedItemData;
+use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\Support\BlueprintInterpreter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;

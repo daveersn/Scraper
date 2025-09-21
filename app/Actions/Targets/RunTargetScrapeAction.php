@@ -3,7 +3,7 @@
 namespace App\Actions\Targets;
 
 use App\Models\Target;
-use App\Scraping\DTOs\ScrapeRequestData;
+use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
