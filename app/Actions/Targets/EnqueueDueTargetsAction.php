@@ -29,7 +29,7 @@ class EnqueueDueTargetsAction
             ->get();
 
         foreach ($dueTargets as $target) {
-            RunScrapeAction::dispatch($target->id);
+            RunTargetScrapeAction::dispatch($target->id);
 
             // Compute and store the next run based on the schedule.
             $expr = new CronExpression($target->schedule_cron);
