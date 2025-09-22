@@ -2,9 +2,9 @@
 
 namespace App\Scraping\Drivers\Subito\Actions;
 
-use App\DTO\Items\BaseItem;
-use App\Enums\ItemStatus;
 use App\Scraping\Drivers\Subito\DTO\Item;
+use App\Scraping\Drivers\Subito\Enums\ItemStatus;
+use Carbon\Carbon;
 use Cknow\Money\Money;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
@@ -14,7 +14,7 @@ class NormalizeItem
     use AsObject;
 
     /**
-     * Transform raw JavaScript data into BaseItem DTOs
+     * Transform raw JavaScript data into its item DTOs
      */
     public function handle(Collection $rawItems): Collection
     {
@@ -46,7 +46,7 @@ class NormalizeItem
                         false
                     );
 
-                $uploadedDateTime = \Carbon\Carbon::createFromFormat('j M H:i', $uploadedTime, 'Europe/Rome');
+                $uploadedDateTime = Carbon::createFromFormat('j M H:i', $uploadedTime, 'Europe/Rome');
 
                 // Convert status string to ItemStatus enum
                 $status = match ($rawItem['status']) {

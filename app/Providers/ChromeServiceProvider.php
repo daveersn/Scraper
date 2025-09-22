@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Scraping\Browser\Browser;
 use HeadlessChromium\AutoDiscover;
-use HeadlessChromium\Browser;
 use HeadlessChromium\BrowserFactory;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Facades\File;
@@ -50,9 +50,13 @@ class ChromeServiceProvider extends ServiceProvider implements DeferrableProvide
                 throw new \RuntimeException("Chrome socket file {$socketPath} is empty");
             }
 
-            return BrowserFactory::connectToBrowser($socket, [
+            // Core ChromePHP Browser
+            $browser = BrowserFactory::connectToBrowser($socket, [
                 'debugLogger' => Log::channel(),
             ]);
+
+            // Our extended Browser with the core connection
+            return new Browser($browser->getConnection());
         });
     }
 

@@ -2,19 +2,21 @@
 
 namespace App\Scraping\Drivers\Subito;
 
+use App\Scraping\Browser\Browser;
 use App\Scraping\Contracts\ScraperDriver;
 use App\Scraping\Drivers\Subito\Actions\ScrapePage;
+use App\Scraping\Drivers\Subito\DTO\Item;
 use App\Scraping\DTO\ScrapedItemData;
 use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\Support\BlueprintInterpreter;
+use HeadlessChromium\Page;
 
 class SubitoScraperDriver implements ScraperDriver
 {
     public function __construct(
-        protected ?BlueprintInterpreter $interpreter = null,
-    ) {
-        $this->interpreter ??= new BlueprintInterpreter;
-    }
+        protected Browser $browser,
+        protected BlueprintInterpreter $interpreter,
+    ) {}
 
     public function canHandle(ScrapeRequestData $request): bool
     {
@@ -26,6 +28,14 @@ class SubitoScraperDriver implements ScraperDriver
      */
     public function fetchItems(ScrapeRequestData $request): array
     {
-        ScrapePage::run();
+        return $this->browser->wrapInPage(function (Page $page) use ($request) {
+            return ScrapePage::run($page, $request->url)
+                ->map(fn (Item $item) => new ScrapedItemData(
+                    url: $item->link,
+                    externalId: $item->item_id,
+                    title: $item->title,
+                ))
+                ->all();
+        });
     }
 }
