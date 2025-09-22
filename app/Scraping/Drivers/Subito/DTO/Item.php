@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Scraping\DTO\Drivers\Subito;
+namespace App\Scraping\Drivers\Subito\DTO;
 
-use App\Enums\Drivers\Subito\SubitoItemStatus;
+use App\Scraping\Drivers\Subito\Enums\ItemStatus;
 use Cknow\Money\Money;
 use DateTimeInterface;
 use Spatie\LaravelData\Data;
 
-class SubitoItem extends Data
+class Item extends Data
 {
     public function __construct(
         public int $item_id,
@@ -15,7 +15,7 @@ class SubitoItem extends Data
         public Money $price,
         public string $town,
         public DateTimeInterface $uploadedDateTime,
-        public ?SubitoItemStatus $status,
+        public ?ItemStatus $status,
         public string $link
     ) {}
 }

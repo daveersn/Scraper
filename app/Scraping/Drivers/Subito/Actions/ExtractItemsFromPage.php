@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Actions\Drivers\Subito;
+namespace App\Scraping\Drivers\Subito\Actions;
 
 use HeadlessChromium\Page;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class ExtractSubitoItemsFromPage
+class ExtractItemsFromPage
 {
     use AsObject;
 

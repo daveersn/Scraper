@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Actions\Drivers\Subito;
+namespace App\Scraping\Drivers\Subito\Actions;
 
 use HeadlessChromium\Page;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class ScrapeSubitoPage
+class ScrapePage
 {
     use AsObject;
 
@@ -90,11 +90,11 @@ class ScrapeSubitoPage
                 usleep(0.5 * 1000000); // 500ms delay
 
                 // Extract items visible in the current viewport
-                $rawItems = ExtractSubitoItemsFromPage::run($page);
+                $rawItems = ExtractItemsFromPage::run($page);
 
                 if ($rawItems->isNotEmpty()) {
                     // Normalize items to DTOs
-                    $items = NormalizeSubitoItem::run($rawItems);
+                    $items = NormalizeItem::run($rawItems);
 
                     // Filter out already processed items to avoid duplicates
                     $newItems = $items->filter(function ($item) use ($processedIds) {

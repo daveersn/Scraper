@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Actions\Drivers\Subito;
+namespace App\Scraping\Drivers\Subito\Actions;
 
 use App\DTO\Items\BaseItem;
 use App\Enums\ItemStatus;
+use App\Scraping\Drivers\Subito\DTO\Item;
 use Cknow\Money\Money;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class NormalizeSubitoItem
+class NormalizeItem
 {
     use AsObject;
 
@@ -54,7 +55,7 @@ class NormalizeSubitoItem
                     default => null,
                 };
 
-                return new BaseItem(
+                return new Item(
                     item_id: $id,
                     title: $rawItem['title'],
                     price: $price,

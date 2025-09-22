@@ -6,7 +6,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "chrome-php/chrome": "^1.14",
         "cknow/laravel-money": "^8.4",
         "filament/filament": "^4.0",
@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.10.1",
         "lorisleiva/laravel-actions": "^2.9",
         "spatie/laravel-data": "^4.17",
-        "spatie/laravel-login-link": "^1.6"
+        "spatie/laravel-login-link": "^1.6",
+        "ext-pcntl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
