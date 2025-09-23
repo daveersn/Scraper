@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cknow\Money\Casts\MoneyDecimalCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,6 +16,7 @@ class Item extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'current_price' => MoneyDecimalCast::class,
         'first_seen_at' => 'datetime',
         'last_seen_at' => 'datetime',
     ];

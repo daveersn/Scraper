@@ -32,8 +32,8 @@ class SubitoScraperDriver implements ScraperDriver
             return ScrapePage::run($page, $request->url)
                 ->map(fn (Item $item) => new ScrapedItemData(
                     url: $item->link,
-                    externalId: $item->item_id,
                     title: $item->title,
+                    externalId: $item->item_id,
                 ))
                 ->all();
         });

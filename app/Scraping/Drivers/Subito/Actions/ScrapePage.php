@@ -3,15 +3,12 @@
 namespace App\Scraping\Drivers\Subito\Actions;
 
 use HeadlessChromium\Page;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
 
 class ScrapePage
 {
     use AsObject;
-
-    protected bool $headless = true;
 
     public function handle(Page $page, string $url): Collection
     {
@@ -51,16 +48,6 @@ class ScrapePage
         } while ($this->hasNextPage($page));
 
         return $allItems;
-    }
-
-    public function asCommand(Command $command): void
-    {
-        $this->headless = ! $command->option('head');
-
-        $data = $scraper->wrap(fn (Page $page) => $this->handle(
-            $page,
-            $command->argument('url')
-        ));
     }
 
     /**
