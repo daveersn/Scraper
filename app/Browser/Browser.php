@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scraping\Browser;
+namespace App\Browser;
 
 class Browser extends \HeadlessChromium\Browser
 {

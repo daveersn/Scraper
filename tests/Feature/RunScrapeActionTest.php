@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use App\Actions\Targets\RunScrapeAction;
+use App\DTO\ScrapedItemData;
 use App\Models\Item;
 use App\Models\ItemPrice;
 use App\Models\Target;
 use App\Models\User;
-use App\Scraping\DTO\ScrapedItemData;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;

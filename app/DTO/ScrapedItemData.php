@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scraping\DTO;
+namespace App\DTO;
 
 use Cknow\Money\Money;
 use Spatie\LaravelData\Data;
@@ -13,5 +13,6 @@ class ScrapedItemData extends Data
         public ?string $externalId = null,
         public ?Money $price = null,
         public ?string $currency = null,
+        public ?ExtraFields $extraFields = null,
     ) {}
 }

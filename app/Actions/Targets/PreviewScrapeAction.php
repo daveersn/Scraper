@@ -2,9 +2,9 @@
 
 namespace App\Actions\Targets;
 
+use App\DTO\ScrapedItemData;
+use App\DTO\ScrapeRequestData;
 use App\Models\Target;
-use App\Scraping\DTO\ScrapedItemData;
-use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Console\Command;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -45,11 +45,7 @@ class PreviewScrapeAction
 
         $items = $this->handle(Target::findOrFail($targetId));
 
-        foreach ($items as $i => $dto) {
-            $command->line(sprintf('%d) %s | %s | %s %s', $i + 1, $dto->url, $dto->title ?? '-', (string) ($dto->currency ?? ''), (string) ($dto->price ?? '')));
-        }
-
-        $command->info('Total: '.count($items));
+        dump($items);
 
         return 0;
     }

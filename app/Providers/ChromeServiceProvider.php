@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Scraping\Browser\Browser;
+use App\Browser\Browser;
 use HeadlessChromium\AutoDiscover;
 use HeadlessChromium\BrowserFactory;
 use Illuminate\Contracts\Support\DeferrableProvider;

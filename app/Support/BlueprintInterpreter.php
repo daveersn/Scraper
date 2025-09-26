@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Scraping\Support;
+namespace App\Support;
 
-use App\Scraping\DTO\ScrapedItemData;
-use App\Scraping\DTO\ScrapeRequestData;
+use App\DTO\ScrapedItemData;
+use App\DTO\ScrapeRequestData;
 
 /**
  * Minimal blueprint interpreter skeleton.

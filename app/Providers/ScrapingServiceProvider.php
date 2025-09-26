@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\Drivers\Chrome\ChromeScraperDriver;
-use App\Scraping\Drivers\Subito\SubitoScraperDriver;
+use App\Scraping\Drivers\ChromeScraperDriver;
+use App\Scraping\Drivers\ScraperDriver;
+use App\Scraping\Drivers\SubitoScraperDriver;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;

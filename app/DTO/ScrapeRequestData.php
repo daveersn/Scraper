@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scraping\DTO;
+namespace App\DTO;
 
 use Spatie\LaravelData\Data;
 

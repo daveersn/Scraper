@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Scraping\Drivers\Subito\Actions;
+namespace App\Actions\Drivers\Subito;
 
-use App\Scraping\Drivers\Subito\DTO\Item;
-use App\Scraping\Drivers\Subito\Enums\ItemStatus;
+use App\DTO\SubitoItem;
+use App\Enums\SubitoItemStatus;
 use Carbon\Carbon;
 use Cknow\Money\Money;
 use Illuminate\Support\Collection;
@@ -50,12 +50,12 @@ class NormalizeItem
 
                 // Convert status string to ItemStatus enum
                 $status = match ($rawItem['status']) {
-                    'Usato' => ItemStatus::USED,
-                    'Nuovo' => ItemStatus::NEW,
+                    'Usato' => SubitoItemStatus::USED,
+                    'Nuovo' => SubitoItemStatus::NEW,
                     default => null,
                 };
 
-                return new Item(
+                return new SubitoItem(
                     item_id: $id,
                     title: $rawItem['title'],
                     price: $price,

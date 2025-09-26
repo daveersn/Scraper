@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Scraping\Drivers\Subito;
+namespace App\Scraping\Drivers;
 
-use App\Scraping\Browser\Browser;
-use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\Drivers\Subito\Actions\ScrapePage;
-use App\Scraping\Drivers\Subito\DTO\Item;
-use App\Scraping\DTO\ScrapedItemData;
-use App\Scraping\DTO\ScrapeRequestData;
-use App\Scraping\Support\BlueprintInterpreter;
+use App\Actions\Drivers\Subito\ScrapePage;
+use App\Browser\Browser;
+use App\DTO\ScrapedItemData;
+use App\DTO\ScrapeRequestData;
+use App\DTO\SubitoExtraFields;
+use App\DTO\SubitoItem;
+use App\Support\BlueprintInterpreter;
 use HeadlessChromium\Page;
 
-class SubitoScraperDriver implements ScraperDriver
+class SubitoScraperDriver extends ScraperDriver
 {
     public function __construct(
         protected Browser $browser,
@@ -30,10 +30,15 @@ class SubitoScraperDriver implements ScraperDriver
     {
         return $this->browser->wrapInPage(function (Page $page) use ($request) {
             return ScrapePage::run($page, $request->url)
-                ->map(fn (Item $item) => new ScrapedItemData(
+                ->map(fn (SubitoItem $item) => new ScrapedItemData(
                     url: $item->link,
                     title: $item->title,
                     externalId: $item->item_id,
+                    extraFields: new SubitoExtraFields(
+                        town: $item->town,
+                        uploadedDateTime: $item->uploadedDateTime,
+                        status: $item->status,
+                    )
                 ))
                 ->all();
         });

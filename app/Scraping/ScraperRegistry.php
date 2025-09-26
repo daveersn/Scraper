@@ -2,8 +2,8 @@
 
 namespace App\Scraping;
 
-use App\Scraping\Contracts\ScraperDriver;
-use App\Scraping\DTO\ScrapeRequestData;
+use App\DTO\ScrapeRequestData;
+use App\Scraping\Drivers\ScraperDriver;
 
 class ScraperRegistry
 {

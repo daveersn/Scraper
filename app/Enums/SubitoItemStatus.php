@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Scraping\Drivers\Subito\Enums;
+namespace App\Enums;
 
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum ItemStatus: string implements HasColor, HasLabel
+enum SubitoItemStatus: string implements HasColor, HasLabel
 {
     case USED = 'U';
     case NEW = 'N';

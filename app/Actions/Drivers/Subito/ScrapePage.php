@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scraping\Drivers\Subito\Actions;
+namespace App\Actions\Drivers\Subito;
 
 use HeadlessChromium\Page;
 use Illuminate\Support\Collection;
@@ -74,7 +74,7 @@ class ScrapePage
                 $page->evaluate("window.scrollTo(0, $currentHeight)");
 
                 // Wait for content to load
-                usleep(0.5 * 1000000); // 500ms delay
+                usleep(0.1 * 1000000); // 100ms delay
 
                 // Extract items visible in the current viewport
                 $rawItems = ExtractItemsFromPage::run($page);

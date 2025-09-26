@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scraping\Drivers\Subito\Actions;
+namespace App\Actions\Drivers\Subito;
 
 use HeadlessChromium\Page;
 use Illuminate\Support\Collection;
@@ -27,8 +27,8 @@ class ExtractItemsFromPage
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         }).map(item => {
-            const titleElement = item.querySelector('[class*="SmallCard-module_item-title"]');
-            const priceElement = item.querySelector('[class*="SmallCard-module_price"]');
+            const titleElement = item.querySelector('[class*="module_item-title"]');
+            const priceElement = item.querySelector('[class*="module_price"]');
             const townElement = item.querySelector('[class*="index-module_town"]');
             const dateElement = item.querySelector('[class*="index-module_date"]');
             const statusElement = item.querySelectorAll('[class*="index-module_info"]')[0];

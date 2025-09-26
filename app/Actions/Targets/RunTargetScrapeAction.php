@@ -2,8 +2,8 @@
 
 namespace App\Actions\Targets;
 
+use App\DTO\ScrapeRequestData;
 use App\Models\Target;
-use App\Scraping\DTO\ScrapeRequestData;
 use App\Scraping\ScraperRegistry;
 use Lorisleiva\Actions\Concerns\AsAction;
 
