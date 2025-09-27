@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Actions\Targets\RunScrapeAction;
+use App\Actions\Targets\ScrapeTarget;
 use App\DTO\ScrapedItemData;
 use App\Models\Item;
 use App\Models\ItemPrice;
@@ -52,7 +52,7 @@ class RunScrapeActionTest extends TestCase
             currency: 'EUR',
         );
 
-        (new RunScrapeAction)->handle($target->id, [$sameItemA, $sameItemB, $externalItem]);
+        (new ScrapeTarget)->handle($target->id, [$sameItemA, $sameItemB, $externalItem]);
 
         // Expect one item for the same URL with two price rows.
         $items = Item::query()->where('site_domain', 'shop.test')->get();

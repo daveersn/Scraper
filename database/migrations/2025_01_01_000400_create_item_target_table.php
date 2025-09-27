@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('target_item', function (Blueprint $table): void {
+        Schema::create('item_target', function (Blueprint $table): void {
             $table->foreignId('target_id')->constrained();
             $table->foreignId('item_id')->constrained();
             $table->timestamp('first_seen_at')->nullable();

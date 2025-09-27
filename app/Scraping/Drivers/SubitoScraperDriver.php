@@ -28,19 +28,19 @@ class SubitoScraperDriver extends ScraperDriver
      */
     public function fetchItems(ScrapeRequestData $request): array
     {
-        return $this->browser->wrapInPage(function (Page $page) use ($request) {
-            return ScrapePage::run($page, $request->url)
-                ->map(fn (SubitoItem $item) => new ScrapedItemData(
-                    url: $item->link,
-                    title: $item->title,
-                    externalId: $item->item_id,
-                    extraFields: new SubitoExtraFields(
-                        town: $item->town,
-                        uploadedDateTime: $item->uploadedDateTime,
-                        status: $item->status,
-                    )
-                ))
-                ->all();
-        });
+        return $this->browser->wrapInPage(fn (Page $page) => ScrapePage::run($page, $request->url)
+            ->map(fn (SubitoItem $item) => new ScrapedItemData(
+                url: $item->link,
+                title: $item->title,
+                externalId: $item->item_id,
+                price: $item->price,
+                currency: 'EUR',
+                extraFields: new SubitoExtraFields(
+                    town: $item->town,
+                    uploadedDateTime: $item->uploadedDateTime,
+                    status: $item->status,
+                )
+            ))
+            ->all());
     }
 }

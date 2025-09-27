@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\Targets\PreviewScrapeAction;
+use App\Actions\Targets\ScrapeTarget;
 use App\Console\Commands\ChromeKillCommand;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withCommands([
         PreviewScrapeAction::class,
+        ScrapeTarget::class,
     ])
     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
         $schedule->command(ChromeKillCommand::class)->dailyAt('03:00');

@@ -31,7 +31,7 @@ final class UrlNormalizer
 
         $authority = $host.($port ? ':'.$port : '');
 
-        return $scheme.'://'.$authority.$path.($query ? '?'.$query : '');
+        return strtolower($scheme.'://'.$authority.$path.($query ? '?'.$query : ''));
     }
 
     private static function filterQuery(array $params): array
