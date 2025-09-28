@@ -6,6 +6,7 @@ use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
 use App\Enums\ItemStatus;
 use App\Models\Item;
+use App\Models\Scopes\ActiveScope;
 use App\Models\Target;
 use App\Scraping\ScraperRegistry;
 use App\Support\UrlNormalizer;
@@ -52,7 +53,7 @@ class ScrapeTarget
 
     public function asCommand(Command $command): int
     {
-        $target = Target::findOrFail($command->argument('targetId'));
+        $target = Target::withoutGlobalScope(ActiveScope::class)->findOrFail($command->argument('targetId'));
 
         $this->handle($target);
 
