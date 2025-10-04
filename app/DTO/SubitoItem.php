@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use App\Enums\SubitoItemStatus;
 use Cknow\Money\Money;
-use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
 
 class SubitoItem extends Data
@@ -14,7 +14,7 @@ class SubitoItem extends Data
         public string $title,
         public Money $price,
         public string $town,
-        public DateTimeInterface $uploadedDateTime,
+        public Carbon $uploadedDateTime,
         public ?SubitoItemStatus $status,
         public string $link
     ) {}

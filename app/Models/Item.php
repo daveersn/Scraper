@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\ExtraFieldsCast;
+use App\Enums\ItemStatus;
 use Cknow\Money\Casts\MoneyIntegerCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class Item extends Model
     protected $casts = [
         'current_price' => MoneyIntegerCast::class,
         'extra_fields' => ExtraFieldsCast::class,
+        'status' => ItemStatus::class,
         'first_seen_at' => 'datetime',
         'last_seen_at' => 'datetime',
     ];
