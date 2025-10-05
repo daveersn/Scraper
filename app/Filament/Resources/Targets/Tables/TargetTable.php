@@ -14,12 +14,8 @@ use Filament\Actions\EditAction;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\Layout\Split;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\Layout\View;
 use Filament\Tables\Table;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\HtmlString;
 
 class TargetTable
 {
@@ -28,24 +24,18 @@ class TargetTable
         return $table
             ->recordTitleAttribute('label')
             ->columns([
-                Split::make([
-                    Stack::make([
-                        Split::make([
-                            TextColumn::make('label')
-                                ->grow(false)
-                                ->searchable(),
-                            IconColumn::make('active')
-                                ->boolean(),
-                        ]),
-                        TextColumn::make('last_run_at')
-                            ->formatStateUsing(fn (?Carbon $state) => $state ? new HtmlString("<span class='text-gray-500'>Ultimo avvio: </span> <span>{$state->diffForHumans()}</span>") : null),
-                        TextColumn::make('next_run_at')
-                            ->formatStateUsing(fn (?Carbon $state) => $state ? new HtmlString("<span class='text-gray-500'>Prossima programmazione: </span> <span>{$state->diffForHumans()}</span>") : null),
+                View::make('filament.resources.target.table.item')
+                    ->components([
+                        'active' => IconColumn::make('active')
+                            ->boolean(),
                     ]),
-                ]),
             ])
             ->filters([
                 //
+            ])
+            ->selectable(false)
+            ->extraAttributes([
+                'class' => 'target-table',
             ])
             ->recordUrl(fn (Target $record) => TargetResource::getUrl('items', ['record' => $record]))
             ->recordActions([
@@ -66,7 +56,9 @@ class TargetTable
                 ]),
             ])
             ->contentGrid([
-                'default' => 3,
+                'default' => 1,
+                'xl' => 2,
+                '2xl' => 3,
             ]);
     }
 }

@@ -57,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, fn () => Blade::render("@env('local')<x-login-link />@endenv"));
     }
 }

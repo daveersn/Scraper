@@ -1,0 +1,13 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+
+.target-table {
+    .fi-ta-actions {
+        position: absolute;
+        right: 0;
+        top: 1.2rem;
+    }
+}
