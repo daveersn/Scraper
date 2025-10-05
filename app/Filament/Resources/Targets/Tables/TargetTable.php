@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Targets\Tables;
 
-use App\Actions\Targets\PreviewScrapeAction;
+use App\Actions\Targets\ScrapeTarget;
 use App\Filament\Resources\Targets\TargetResource;
 use App\Models\Target;
 use Filament\Actions\Action;
@@ -44,7 +44,7 @@ class TargetTable
                         ->icon(Heroicon::GlobeAlt)
                         ->color(Color::Green)
                         ->action(function (Target $record) {
-                            PreviewScrapeAction::run($record);
+                            ScrapeTarget::run($record);
                         }),
                     EditAction::make(),
                     DeleteAction::make(),

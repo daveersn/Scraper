@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Actions\Action;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Table::configureUsing(function (Table $table) {
             $table->defaultDateTimeDisplayFormat('Y/m/d');
+        });
+
+        Action::configureUsing(function (Action $action) {
+            $action->iconPosition(IconPosition::After);
         });
     }
 }
