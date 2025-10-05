@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\DTO\ExtraFields\ExtraFields;
 use Cknow\Money\Money;
 use Spatie\LaravelData\Data;
 

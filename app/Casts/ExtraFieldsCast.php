@@ -2,8 +2,8 @@
 
 namespace App\Casts;
 
-use App\DTO\ExtraFields;
-use App\DTO\ExtraFieldsCastWrapper;
+use App\DTO\ExtraFields\ExtraFields;
+use App\DTO\ExtraFields\ExtraFieldsCastWrapper;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Eloquent\Model;

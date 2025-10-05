@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\ExtraFields;
 
-use App\DTO\ExtraFields as Data;
+use App\DTO\ExtraFields\ExtraFields as Data;
 use App\Enums\SubitoItemStatus;
 use Illuminate\Support\Carbon;
 

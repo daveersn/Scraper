@@ -13,4 +13,6 @@ abstract class ScraperDriver
      * @return array<int, ScrapedItemData>
      */
     abstract public function fetchItems(ScrapeRequestData $request): array;
+
+    abstract public static function getExtraFieldsClass(): ?string;
 }
