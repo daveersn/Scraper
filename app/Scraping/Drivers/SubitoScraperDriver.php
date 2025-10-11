@@ -8,6 +8,7 @@ use App\DTO\ExtraFields\SubitoExtraFields;
 use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
 use App\DTO\SubitoItem;
+use App\Enums\ScraperDriverType;
 use App\Support\BlueprintInterpreter;
 use HeadlessChromium\Page;
 
@@ -49,5 +50,10 @@ class SubitoScraperDriver extends ScraperDriver
     public static function getExtraFieldsClass(): ?string
     {
         return SubitoExtraFields::class;
+    }
+
+    public static function getDriverType(): ScraperDriverType
+    {
+        return ScraperDriverType::Subito;
     }
 }

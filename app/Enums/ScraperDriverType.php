@@ -4,5 +4,5 @@ namespace App\Enums;
 
 enum ScraperDriverType: string
 {
-    case Subito = 'S';
+    case Subito = 'SU';
 }

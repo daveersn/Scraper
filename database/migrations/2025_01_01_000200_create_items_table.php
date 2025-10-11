@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table): void {
             $table->id();
-            $table->string('site_domain')->index();
             $table->text('url');
             $table->char('url_hash', 40)->unique();
             $table->string('external_id')->nullable();
@@ -21,8 +20,6 @@ return new class extends Migration
             $table->timestamp('first_seen_at')->nullable()->index();
             $table->timestamp('last_seen_at')->nullable()->index();
             $table->timestamps();
-
-            $table->unique(['site_domain', 'external_id']);
         });
     }
 

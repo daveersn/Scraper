@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\ItemStatus;
 use App\Models\Item;
+use App\Support\UrlNormalizer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,9 +26,8 @@ class ItemFactory extends Factory
         $url = 'https://'.$siteDomain.'/'.Str::slug(fake()->unique()->sentence(3));
 
         return [
-            'site_domain' => $siteDomain,
             'url' => $url,
-            'url_hash' => sha1($url),
+            'url_hash' => UrlNormalizer::hash($url),
             'external_id' => fake()->optional()->bothify('?????-#####'),
             'title' => fake()->sentence(),
             'current_price' => fake()->optional()->numberBetween(100, 100000),

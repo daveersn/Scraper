@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Targets\Resources\Items\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class ItemForm
@@ -13,8 +13,6 @@ class ItemForm
     {
         return $schema
             ->components([
-                TextInput::make('site_domain')
-                    ->required(),
                 Textarea::make('url')
                     ->required()
                     ->columnSpanFull(),

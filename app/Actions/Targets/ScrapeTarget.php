@@ -68,14 +68,11 @@ class ScrapeTarget
             $normalized = UrlNormalizer::normalize($item->url);
             $hash = UrlNormalizer::hash($normalized);
 
-            $siteDomain = parse_domain($normalized);
-
             $itemModel = Item::firstWhere('url_hash', $hash);
 
             if (! $itemModel) {
                 $itemModel = Item::create([
                     'url_hash' => $hash,
-                    'site_domain' => $siteDomain,
                     'url' => $normalized,
                     'external_id' => $item->externalId,
                     'title' => $item->title,

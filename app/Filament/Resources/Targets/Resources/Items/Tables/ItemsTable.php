@@ -2,10 +2,8 @@
 
 namespace App\Filament\Resources\Targets\Resources\Items\Tables;
 
-use App\Filament\Imports\ItemImporter;
 use App\Models\Item;
 use Filament\Actions\Action;
-use Filament\Actions\ImportAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -46,13 +44,6 @@ class ItemsTable
                     ->icon(Heroicon::GlobeAlt)
                     ->url(fn (Item $record) => $record->url)
                     ->openUrlInNewTab(),
-            ])
-            ->headerActions([
-                ImportAction::make('import')
-                    ->label('Importa')
-                    ->color('primary')
-                    ->icon(Heroicon::ArrowDownTray)
-                    ->importer(ItemImporter::class),
             ]);
     }
 }
