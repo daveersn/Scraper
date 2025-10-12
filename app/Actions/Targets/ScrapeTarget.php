@@ -112,7 +112,7 @@ class ScrapeTarget
                     'last_seen_at' => $this->now,
                 ]);
             } else {
-                $target->items()->updateExistingPivot($itemModel->id, [
+                $target->items()->updateExistingPivot($itemModel->getKey(), [
                     'last_seen_at' => $this->now,
                 ]);
             }

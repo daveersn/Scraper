@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained();
             $table->integer('price');
-            $table->char('currency', 3);
+            $table->char('currency', 3)->nullable();
             $table->timestamps();
         });
     }

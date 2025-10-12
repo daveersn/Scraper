@@ -6,7 +6,6 @@ use App\Filament\Imports\Columns\ExtraFieldImportColumn;
 use App\Models\Item;
 use App\Models\Target;
 use App\Support\UrlNormalizer;
-use Cknow\Money\Money;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
@@ -16,8 +15,6 @@ use Illuminate\Support\Number;
 class ItemImporter extends Importer
 {
     protected static ?string $model = Item::class;
-
-    protected array $originalCastedData;
 
     public static function getColumns(): array
     {
@@ -29,26 +26,17 @@ class ItemImporter extends Importer
                 ->rules(['max:255']),
             ImportColumn::make('title')
                 ->requiredMapping()
-                ->rules(['max:255']),
-            ImportColumn::make('current_price')
-                ->castStateUsing(fn (string $state) => Money::parse($state))
-                ->requiredMapping(),
-            ImportColumn::make('prices')
-                ->castStateUsing(fn (?array $state) => $state !== null
-                    ? array_map(fn (string $value) => Money::parse($value), $state)
-                    : $state
-                )
-                ->multiple(),
+                ->rules(['max:255', 'required']),
             ImportColumn::make('status')
                 ->fillRecordUsing(fn (Item $record, string $state) => $record->status = $state)
-                ->guess(['status'])
+                ->guess(['status', 'required'])
                 ->requiredMapping(),
             ImportColumn::make('first_seen_at')
                 ->requiredMapping()
-                ->rules(['date']),
+                ->rules(['date', 'required']),
             ImportColumn::make('last_seen_at')
                 ->requiredMapping()
-                ->rules(['date']),
+                ->rules(['date', 'required']),
 
             ...static::getExtraFieldsColumns(),
         ];
@@ -66,34 +54,40 @@ class ItemImporter extends Importer
         ]);
     }
 
-    protected function beforeFill(): void
+    public function afterFill(): void
     {
-        $options = $this->getOptions();
-
         /** @var Target $target */
-        $target = $options['target'];
+        $target = $this->getOptions()['target'];
         $driver = $target->getScraperDriver();
-
-        $this->originalCastedData = $this->data;
-
-        $this->data = Arr::only($this->data, [
-            'url',
-            'external_id',
-            'title',
-            'status',
-            'first_seen_at',
-            'last_seen_at',
-            'current_price',
-        ]);
 
         if ($driver::getExtraFieldsClass() !== null && count(static::getExtraFieldsColumns())) {
             $extraFields = Arr::mapWithKeys(
                 static::getExtraFieldsColumns(),
                 fn (ExtraFieldImportColumn $column) => [
-                    $column->getExtraFieldsName() => $this->originalCastedData[$column->getName()] ?? null,
+                    $column->getExtraFieldsName() => $this->data[$column->getName()] ?? null,
                 ]);
 
-            $this->data['extra_fields'] = $driver::getExtraFieldsClass()::from($extraFields);
+            // Manually fill with hook as there is no extra_fields ImportColumn
+            $this->record->fill([
+                'extra_fields' => $driver::getExtraFieldsClass()::from($extraFields),
+            ]);
+        }
+    }
+
+    public function afterSave(): void
+    {
+        /** @var Target $target */
+        $target = $this->getOptions()['target'];
+
+        if (! $target->items()->where('items.id', $this->getRecord()->getKey())->exists()) {
+            $target->items()->attach($this->getRecord()->getKey(), [
+                'first_seen_at' => $this->data['first_seen_at'],
+                'last_seen_at' => $this->data['last_seen_at'],
+            ]);
+        } else {
+            $target->items()->updateExistingPivot($this->getRecord()->getKey(), [
+                'last_seen_at' => $this->data['last_seen_at'],
+            ]);
         }
     }
 

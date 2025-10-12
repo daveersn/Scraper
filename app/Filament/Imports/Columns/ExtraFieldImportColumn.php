@@ -11,6 +11,8 @@ class ExtraFieldImportColumn extends ImportColumn
     protected function setUp(): void
     {
         $this->name(self::ColumnPrefix.$this->getName());
+
+        $this->fillRecordUsing(fn () => null);
     }
 
     public function getExtraFieldsName(): string

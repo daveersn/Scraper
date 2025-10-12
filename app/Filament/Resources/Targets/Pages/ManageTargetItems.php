@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Targets\Pages;
 
 use App\Filament\Imports\ItemImporter;
+use App\Filament\Imports\ItemPriceImporter;
 use App\Filament\Resources\Targets\Resources\Items\ItemResource;
 use App\Filament\Resources\Targets\TargetResource;
 use App\Models\Target;
@@ -29,14 +30,20 @@ class ManageTargetItems extends ManageRelatedRecords
 
         return $table
             ->headerActions([
-                ImportAction::make('import')
-                    ->label('Importa')
+                ImportAction::make('import_items')
+                    ->label('Importa items')
                     ->color('primary')
                     ->icon(Heroicon::ArrowDownTray)
                     ->importer($importerClass ?? ItemImporter::class)
                     ->options([
                         'target' => $target,
                     ]),
+
+                ImportAction::make('import_prices')
+                    ->label('Importa prezzi')
+                    ->color('primary')
+                    ->icon(Heroicon::CurrencyEuro)
+                    ->importer(ItemPriceImporter::class),
             ]);
     }
 }

@@ -16,7 +16,6 @@ use HeadlessChromium\Page;
 class SubitoScraperDriver extends ScraperDriver
 {
     public function __construct(
-        protected Browser $browser,
         protected BlueprintInterpreter $interpreter,
     ) {}
 
@@ -30,9 +29,10 @@ class SubitoScraperDriver extends ScraperDriver
      */
     public function fetchItems(ScrapeRequestData $request): array
     {
+        $browser = app(Browser::class);
         $extraFieldsClass = self::getExtraFieldsClass();
 
-        return $this->browser->wrapInPage(fn (Page $page) => ScrapePage::run($page, $request->url)
+        return $browser->wrapInPage(fn (Page $page) => ScrapePage::run($page, $request->url)
             ->map(fn (SubitoItem $item) => new ScrapedItemData(
                 url: $item->link,
                 title: $item->title,
