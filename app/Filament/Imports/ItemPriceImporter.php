@@ -19,6 +19,7 @@ class ItemPriceImporter extends Importer
     {
         return [
             ImportColumn::make('item')
+                ->label('Item URL')
                 ->requiredMapping()
                 ->relationship(resolveUsing: fn (string $state) => Item::query()
                     ->where('url_hash', UrlNormalizer::hash($state))
