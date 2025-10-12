@@ -8,9 +8,9 @@ use Spatie\LaravelData\Data;
 class ScrapeRequestData extends Data
 {
     public function __construct(
-        #[MapInputName('id')]
-        public int $targetId,
         public string $url,
+        #[MapInputName('id')]
+        public ?int $targetId = null,
         public ?array $blueprint = null,
         public ?array $context = null,
     ) {}

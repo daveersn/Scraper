@@ -23,7 +23,9 @@ class ManageTargetItems extends ManageRelatedRecords
     {
         /** @var Target $target */
         $target = $this->getRecord();
-        $target->driver;
+
+        $driver = $target->getScraperDriver();
+        $importerClass = $driver::getImporterClass();
 
         return $table
             ->headerActions([
@@ -31,7 +33,10 @@ class ManageTargetItems extends ManageRelatedRecords
                     ->label('Importa')
                     ->color('primary')
                     ->icon(Heroicon::ArrowDownTray)
-                    ->importer(ItemImporter::class),
+                    ->importer($importerClass ?? ItemImporter::class)
+                    ->options([
+                        'target' => $target,
+                    ]),
             ]);
     }
 }

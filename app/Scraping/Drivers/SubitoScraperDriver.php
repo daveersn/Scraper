@@ -9,6 +9,7 @@ use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
 use App\DTO\SubitoItem;
 use App\Enums\ScraperDriverType;
+use App\Filament\Imports\SubitoItemImporter;
 use App\Support\BlueprintInterpreter;
 use HeadlessChromium\Page;
 
@@ -37,7 +38,7 @@ class SubitoScraperDriver extends ScraperDriver
                 title: $item->title,
                 externalId: $item->item_id,
                 price: $item->price,
-                currency: 'EUR',
+                currency: config('app.currency'),
                 extraFields: new $extraFieldsClass(
                     town: $item->town,
                     uploadedDateTime: $item->uploadedDateTime,
@@ -55,5 +56,10 @@ class SubitoScraperDriver extends ScraperDriver
     public static function getDriverType(): ScraperDriverType
     {
         return ScraperDriverType::Subito;
+    }
+
+    public static function getImporterClass(): ?string
+    {
+        return SubitoItemImporter::class;
     }
 }

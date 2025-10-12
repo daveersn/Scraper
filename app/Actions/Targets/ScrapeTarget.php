@@ -32,11 +32,7 @@ class ScrapeTarget
 
     public function handle(Target $target): Target
     {
-        $request = new ScrapeRequestData(
-            targetId: $target->id,
-            url: $target->url,
-            blueprint: $target->blueprint ?? [],
-        );
+        $request = ScrapeRequestData::from($target);
 
         $driver = $this->registry->resolveFor($request);
         $items = $driver ? $driver->fetchItems($request) : [];
@@ -72,7 +68,6 @@ class ScrapeTarget
 
             if (! $itemModel) {
                 $itemModel = Item::create([
-                    'url_hash' => $hash,
                     'url' => $normalized,
                     'external_id' => $item->externalId,
                     'title' => $item->title,
