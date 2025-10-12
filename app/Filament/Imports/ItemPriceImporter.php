@@ -48,6 +48,20 @@ class ItemPriceImporter extends Importer
         ]);
     }
 
+    public function afterSave(): void
+    {
+        /** @var ItemPrice $price */
+        $price = $this->getRecord();
+        $item = $price->item;
+
+        // Update Item current price if is not the latest price
+        if ($item->current_price?->getAmount() !== $item->latestPrice->price->getAmount()) {
+            $item->update([
+                'current_price' => $item->latestPrice->price,
+            ]);
+        }
+    }
+
     public static function getCompletedNotificationBody(Import $import): string
     {
         $body = 'Your item price import has completed and '.Number::format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
