@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -44,7 +45,12 @@ class TargetTable
                         ->icon(Heroicon::GlobeAlt)
                         ->color(Color::Green)
                         ->action(function (Target $record) {
-                            ScrapeTarget::run($record);
+                            ScrapeTarget::dispatch($record);
+                            Notification::make()
+                                ->success()
+                                ->title('Scansione messa in coda')
+                                ->body("La tua scansione per $record->label è stata messa in coda.")
+                                ->send();
                         }),
                     EditAction::make(),
                     DeleteAction::make(),
