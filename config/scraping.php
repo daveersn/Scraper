@@ -2,14 +2,8 @@
 
 return [
     'chrome' => [
-        // Absolute path to Chrome/Chromium binary if auto-detection fails.
-        'binary' => env('SCRAPING_CHROME_BINARY'),
-
-        // Headless flags and extra Chrome flags.
-        'headless' => env('SCRAPING_CHROME_HEADLESS', true),
-
         // Page environment
-        'user_agent' => env('SCRAPING_USER_AGENT'),
+        'user_agent' => env('SCRAPING_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'),
         'viewport' => [
             'width' => (int) env('SCRAPING_VIEWPORT_WIDTH', 1366),
             'height' => (int) env('SCRAPING_VIEWPORT_HEIGHT', 768),

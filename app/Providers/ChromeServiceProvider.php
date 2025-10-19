@@ -30,9 +30,15 @@ class ChromeServiceProvider extends ServiceProvider implements DeferrableProvide
             $factory = new BrowserFactory($binary);
 
             $factory->setOptions([
-                'ignoreCertificateErrors' => true,
-                'windowSize' => [1920, 1000],
                 'debugLogger' => Log::channel(),
+                'userAgent' => config('scraping.chrome.user_agent'),
+                'windowSize' => [
+                    config('scraping.chrome.viewport.width'),
+                    config('scraping.chrome.viewport.height'),
+                ],
+                'keepAlive' => true,
+                'ignoreCertificateErrors' => true,
+                'customFlags' => ['--disable-web-security'],
             ]);
 
             return $factory;
@@ -51,9 +57,7 @@ class ChromeServiceProvider extends ServiceProvider implements DeferrableProvide
             }
 
             // Core ChromePHP Browser
-            $browser = BrowserFactory::connectToBrowser($socket, [
-                'debugLogger' => Log::channel(),
-            ]);
+            $browser = BrowserFactory::connectToBrowser($socket);
 
             // Our extended Browser with the core connection
             return new Browser($browser->getConnection());

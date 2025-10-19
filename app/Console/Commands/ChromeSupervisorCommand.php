@@ -53,14 +53,12 @@ class ChromeSupervisorCommand extends Command
         $headless = $this->option('headless');
         $headless = ! ($headless === '0' || $headless === 'false');
 
-        $this->browser = $this->browserFactory->createBrowser([
-            'headless' => $headless,
-            'ignoreCertificateErrors' => true,
-            'enableImages' => true,
-            'noSandbox' => true,
-            'keepAlive' => true,
-            'customFlags' => ['--disable-web-security'],
-        ]);
+        $options = array_merge(
+            $this->browserFactory->getOptions(),
+            ['headless' => $headless]
+        );
+
+        $this->browser = $this->browserFactory->createBrowser($options);
 
         $this->socket = $this->browser->getSocketUri();
 

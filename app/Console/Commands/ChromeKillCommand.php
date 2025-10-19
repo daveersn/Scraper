@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use HeadlessChromium\Browser;
+use App\Browser\Browser;
 use HeadlessChromium\Exception\BrowserConnectionFailed;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
@@ -25,16 +25,16 @@ class ChromeKillCommand extends Command
 
     private function killOrphanProcesses(): void
     {
-        $process = Process::run('pgrep -f "chrome.*--headless"');
+        try {
+            $process = Process::run('pgrep chrome | grep -v artisan');
 
-        if ($process->failed()) {
-            throw new \RuntimeException("Could not fetch headless chrome processes: {$process->output()}");
-        }
+            $pids = explode("\n", trim($process->output()));
 
-        $pids = explode("\n", trim($process->output()));
-
-        foreach ($pids as $pid) {
-            Process::run("kill -9 $pid");
+            foreach ($pids as $pid) {
+                Process::run("kill -9 $pid");
+            }
+        } catch (\Throwable $exception) {
+            report($exception);
         }
     }
 }
