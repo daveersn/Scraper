@@ -4,11 +4,12 @@ namespace App\Actions\Drivers\Subito;
 
 use App\DTO\SubitoItem;
 use App\Enums\SubitoItemStatus;
+use App\Exceptions\SubitoItemNormalizationException;
 use Cknow\Money\Money;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
-use RuntimeException;
+use Throwable;
 
 class NormalizeItem
 {
@@ -65,8 +66,8 @@ class NormalizeItem
                     status: $status,
                     link: $rawItem['href']
                 );
-            } catch (\Exception $e) {
-                report(new RuntimeException(message: 'Failed to normalize Subito item', previous: $e));
+            } catch (Throwable $exception) {
+                report(new SubitoItemNormalizationException(item: $rawItem, previous: $exception));
 
                 return null;
             }
