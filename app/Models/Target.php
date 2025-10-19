@@ -54,8 +54,16 @@ class Target extends Model
     {
         $registry = app(ScraperRegistry::class);
 
-        return $this->driver !== null
-            ? $registry->resolveFromType($this->driver)
-            : $registry->resolveFor(ScrapeRequestData::from($this));
+        if ($this->driver !== null) {
+            return $registry->resolveFromType($this->driver);
+        }
+
+        $driver = $registry->resolveFor(ScrapeRequestData::from($this));
+
+        $this->update([
+            'driver' => $driver::getDriverType(),
+        ]);
+
+        return $driver;
     }
 }

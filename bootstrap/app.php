@@ -14,9 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule): void {
-        $schedule->command('enqueue:due-targets')->everyMinute();
-    })
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
@@ -30,5 +27,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ])
     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
         $schedule->command(ChromeKillCommand::class)->dailyAt('03:00');
+        $schedule->command(EnqueueDueTargetsAction::class)->dailyAt('02:00');
     })
     ->create();

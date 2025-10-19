@@ -8,6 +8,7 @@ use Cknow\Money\Money;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
+use RuntimeException;
 
 class NormalizeItem
 {
@@ -65,7 +66,7 @@ class NormalizeItem
                     link: $rawItem['href']
                 );
             } catch (\Exception $e) {
-                report("Failed to normalize Subito item: {$e->getMessage()}");
+                report(new RuntimeException(message: 'Failed to normalize Subito item', previous: $e));
 
                 return null;
             }

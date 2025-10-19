@@ -33,8 +33,8 @@ class ScrapeTarget
     public function handle(Target $target): Target
     {
         $request = ScrapeRequestData::from($target);
+        $driver = $target->getScraperDriver();
 
-        $driver = $this->registry->resolveFor($request);
         $items = $driver ? $driver->fetchItems($request) : [];
 
         $this->now = now();
