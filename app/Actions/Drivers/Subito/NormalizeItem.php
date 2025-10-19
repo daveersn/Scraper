@@ -35,7 +35,7 @@ class NormalizeItem
                 $uploadedTime = str($rawItem['uploaded'])
                     ->replace('Oggi', now()->format('j M'))
                     ->replace('Ieri', now()->subDay()->format('j M'))
-                    ->replace(' alle', '')
+                    ->replace([' alle', ' all\''], '')
                     ->replace(
                         [
                             'gen', 'feb', 'mar', 'apr', 'mag', 'giu',
