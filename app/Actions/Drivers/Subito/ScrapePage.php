@@ -15,6 +15,8 @@ class ScrapePage
         $allItems = collect();
         $currentPageIndex = 1;
 
+        $maxPages = config('scraping.chrome.pagination_max_pages');
+
         do {
             try {
                 // Navigate to the current page
@@ -45,7 +47,7 @@ class ScrapePage
                 report("Error scraping Subito.it page $currentPageIndex: {$e->getMessage()}");
                 break;
             }
-        } while ($this->hasNextPage($page));
+        } while ($this->hasNextPage($page) && $currentPageIndex < $maxPages);
 
         return $allItems;
     }

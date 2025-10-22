@@ -14,6 +14,6 @@ return [
         'navigation_delay_ms' => (int) env('SCRAPING_NAV_DELAY_MS', 0),
 
         // Pagination safety cap (max pages per run)
-        'pagination_max_pages' => (int) env('SCRAPING_MAX_PAGES', 10),
+        'pagination_max_pages' => (int) env('SCRAPING_MAX_PAGES', 5),
     ],
 ];
