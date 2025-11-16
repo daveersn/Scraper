@@ -47,7 +47,7 @@ class Item extends Model
      */
     public function targets(): BelongsToMany
     {
-        return $this->belongsToMany(Target::class, 'target_item')
+        return $this->belongsToMany(Target::class)
             ->withPivot(['first_seen_at', 'last_seen_at'])
             ->withTimestamps();
     }

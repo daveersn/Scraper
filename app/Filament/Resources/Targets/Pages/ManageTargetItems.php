@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Targets\Pages;
 use App\Filament\Imports\ItemImporter;
 use App\Filament\Imports\ItemPriceImporter;
 use App\Filament\Resources\Targets\Resources\Items\ItemResource;
+use App\Filament\Resources\Targets\Resources\Items\Widgets\TargetItemAveragePriceChart;
+use App\Filament\Resources\Targets\Resources\Items\Widgets\TargetItemPriceStats;
 use App\Filament\Resources\Targets\TargetResource;
 use App\Models\Target;
 use Filament\Actions\ImportAction;
@@ -45,5 +47,13 @@ class ManageTargetItems extends ManageRelatedRecords
                     ->icon(Heroicon::CurrencyEuro)
                     ->importer(ItemPriceImporter::class),
             ]);
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            TargetItemPriceStats::class,
+            TargetItemAveragePriceChart::class,
+        ];
     }
 }
