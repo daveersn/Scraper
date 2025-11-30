@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\ExtraFieldsCast;
 use App\Enums\ItemStatus;
+use App\Models\Pivots\ItemTarget;
 use App\Observers\ItemObserver;
 use Cknow\Money\Casts\MoneyIntegerCast;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -13,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property ?ItemTarget $pivot
+ */
 #[ObservedBy([ItemObserver::class])]
 class Item extends Model
 {
@@ -48,7 +52,13 @@ class Item extends Model
     public function targets(): BelongsToMany
     {
         return $this->belongsToMany(Target::class)
-            ->withPivot(['first_seen_at', 'last_seen_at'])
+            ->using(ItemTarget::class)
+            ->withPivot('ignored', 'first_seen_at', 'last_seen_at')
             ->withTimestamps();
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === ItemStatus::ACTIVE;
     }
 }

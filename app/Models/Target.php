@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\DTO\ScrapeRequestData;
 use App\Enums\ScraperDriverType;
+use App\Models\Pivots\ItemTarget;
 use App\Models\Scopes\ActiveScope;
 use App\Observers\TargetObserver;
 use App\Scraping\Drivers\ScraperDriver;
@@ -46,7 +47,8 @@ class Target extends Model
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class)
-            ->withPivot(['first_seen_at', 'last_seen_at'])
+            ->using(ItemTarget::class)
+            ->withPivot('ignored', 'first_seen_at', 'last_seen_at')
             ->withTimestamps();
     }
 

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Targets\Resources\Items\Tables;
 
 use App\Models\Item;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -43,7 +44,18 @@ class ItemsTable
                     ->label('Apri pagina')
                     ->icon(Heroicon::GlobeAlt)
                     ->url(fn (Item $record) => $record->url)
+                    ->visible(fn (Item $record) => $record->isActive())
                     ->openUrlInNewTab(),
+                ActionGroup::make([
+                    Action::make('toggle_ignore')
+                        ->label(fn (Item $record) => $record->pivot->ignored ? 'Includi' : 'Ignora')
+                        ->color(fn (Item $record) => ! $record->pivot->ignored ? 'danger' : 'success')
+                        ->icon(fn (Item $record) => $record->pivot->ignored ? Heroicon::OutlinedCheckCircle : Heroicon::OutlinedXCircle)
+                        ->requiresConfirmation()
+                        ->action(fn (Item $record) => $record->pivot->update([
+                            'ignored' => ! $record->pivot->ignored,
+                        ])),
+                ]),
             ]);
     }
 }
