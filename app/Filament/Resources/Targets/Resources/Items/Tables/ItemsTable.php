@@ -51,12 +51,16 @@ class ItemsTable
                     ->placeholder('Solo non ignorati')
                     ->trueLabel('Solo ignorati')
                     ->falseLabel('Tutti')
+                    ->baseQuery(fn (Builder $query): Builder => $query->withoutGlobalScope(IgnoredItemTargetScope::class))
                     ->queries(
+                        // Ignored items
                         true: fn (Builder $query): Builder => $query
-                            ->withoutGlobalScope(IgnoredItemTargetScope::class)
                             ->where('item_target.ignored', true),
-                        false: fn (Builder $query): Builder => $query
-                            ->withoutGlobalScope(IgnoredItemTargetScope::class),
+                        // All items
+                        false: fn (Builder $query): Builder => $query,
+                        // Non-ignored items
+                        blank: fn (Builder $query): Builder => $query
+                            ->where('item_target.ignored', false),
                     ),
             ])
             ->recordActions([
