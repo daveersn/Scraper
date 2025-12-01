@@ -3,11 +3,15 @@
 namespace App\Filament\Resources\Targets\Resources\Items\Tables;
 
 use App\Models\Item;
+use App\Models\Scopes\IgnoredItemTargetScope;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ItemsTable
 {
@@ -25,6 +29,11 @@ class ItemsTable
                     ->label('Stato')
                     ->badge()
                     ->searchable(),
+                IconColumn::make('ignored')
+                    ->label('Ignorato')
+                    ->boolean()
+                    ->getStateUsing(fn (Item $record) => $record->pivot->ignored)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('first_seen_at')
                     ->label('Scansionato il')
                     ->dateTime()
@@ -37,7 +46,18 @@ class ItemsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TernaryFilter::make('ignored')
+                    ->label('Ignorati')
+                    ->placeholder('Solo non ignorati')
+                    ->trueLabel('Solo ignorati')
+                    ->falseLabel('Tutti')
+                    ->queries(
+                        true: fn (Builder $query): Builder => $query
+                            ->withoutGlobalScope(IgnoredItemTargetScope::class)
+                            ->where('item_target.ignored', true),
+                        false: fn (Builder $query): Builder => $query
+                            ->withoutGlobalScope(IgnoredItemTargetScope::class),
+                    ),
             ])
             ->recordActions([
                 Action::make('visit')

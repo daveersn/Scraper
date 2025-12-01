@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Casts\ExtraFieldsCast;
 use App\Enums\ItemStatus;
 use App\Models\Pivots\ItemTarget;
+use App\Models\Scopes\IgnoredItemTargetScope;
 use App\Observers\ItemObserver;
 use Cknow\Money\Casts\MoneyIntegerCast;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property ?ItemTarget $pivot
  */
 #[ObservedBy([ItemObserver::class])]
+#[ScopedBy(IgnoredItemTargetScope::class)]
 class Item extends Model
 {
     use HasFactory;
