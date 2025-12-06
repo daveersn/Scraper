@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class EnqueueDueTargetsAction
+class EnqueueDueTargets
 {
     use AsAction;
 

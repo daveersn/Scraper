@@ -1,8 +1,10 @@
 <?php
 
-use App\Actions\Targets\EnqueueDueTargetsAction;
-use App\Actions\Targets\PreviewScrapeAction;
+use App\Actions\Targets\EnqueueDueTargets;
+use App\Actions\Targets\PreviewScrape;
 use App\Actions\Targets\ScrapeTarget;
+use App\Actions\Targets\UpdateGoneItems;
+use App\Actions\Targets\VerifyItemExists;
 use App\Console\Commands\ChromeKillCommand;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,12 +23,14 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withCommands([
-        PreviewScrapeAction::class,
+        PreviewScrape::class,
         ScrapeTarget::class,
-        EnqueueDueTargetsAction::class,
+        EnqueueDueTargets::class,
+        UpdateGoneItems::class,
+        VerifyItemExists::class,
     ])
     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
         $schedule->command(ChromeKillCommand::class)->dailyAt('03:00');
-        $schedule->command(EnqueueDueTargetsAction::class)->dailyAt('02:00');
+        $schedule->command(EnqueueDueTargets::class)->dailyAt('02:00');
     })
     ->create();

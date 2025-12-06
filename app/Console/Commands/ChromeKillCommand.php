@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Browser\Browser;
+use App\Http\Integrations\Browser\Browser;
 use HeadlessChromium\Exception\BrowserConnectionFailed;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;

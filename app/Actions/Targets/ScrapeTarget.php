@@ -8,7 +8,6 @@ use App\Enums\ItemStatus;
 use App\Models\Item;
 use App\Models\Scopes\ActiveScope;
 use App\Models\Target;
-use App\Scraping\ScraperRegistry;
 use App\Support\UrlNormalizer;
 use Cron\CronExpression;
 use DateTimeInterface;
@@ -25,10 +24,7 @@ class ScrapeTarget
 
     public $commandDescription = 'Perform Target scraping';
 
-    public function __construct(
-        public ScraperRegistry $registry,
-        public ?DateTimeInterface $now = null,
-    ) {}
+    private ?DateTimeInterface $now = null;
 
     public function handle(Target $target): Target
     {

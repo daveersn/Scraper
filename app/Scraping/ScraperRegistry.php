@@ -36,4 +36,18 @@ class ScraperRegistry
 
         return null;
     }
+
+    /**
+     * @return array<int, ScraperDriver>
+     */
+    public function getDrivers(): array
+    {
+        $drivers = [];
+
+        foreach ($this->drivers as $driver) {
+            $drivers[] = $driver;
+        }
+
+        return $drivers;
+    }
 }

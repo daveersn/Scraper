@@ -3,17 +3,19 @@
 namespace App\Scraping\Drivers;
 
 use App\Actions\Drivers\Subito\ScrapePage;
-use App\Browser\Browser;
+use App\Actions\Targets\VerifyItemExists;
 use App\DTO\ExtraFields\SubitoExtraFields;
 use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
 use App\DTO\SubitoItem;
 use App\Enums\ScraperDriverType;
 use App\Filament\Imports\SubitoItemImporter;
+use App\Http\Integrations\Browser\Browser;
+use App\Scraping\Drivers\Contracts\ChecksItemExistence;
 use App\Support\BlueprintInterpreter;
 use HeadlessChromium\Page;
 
-class SubitoScraperDriver extends ScraperDriver
+class SubitoScraperDriver extends ScraperDriver implements ChecksItemExistence
 {
     public function __construct(
         protected BlueprintInterpreter $interpreter,
@@ -46,6 +48,11 @@ class SubitoScraperDriver extends ScraperDriver
                 )
             ))
             ->all());
+    }
+
+    public function itemExists(ScrapeRequestData $request): bool
+    {
+        return VerifyItemExists::run($request);
     }
 
     public static function getExtraFieldsClass(): ?string

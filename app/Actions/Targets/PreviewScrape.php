@@ -10,7 +10,7 @@ use App\Scraping\ScraperRegistry;
 use Illuminate\Console\Command;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class PreviewScrapeAction
+class PreviewScrape
 {
     use AsAction, PrintsPrettyJson;
 
