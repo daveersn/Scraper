@@ -3,7 +3,7 @@
 namespace App\Scraping\Drivers;
 
 use App\Actions\Drivers\Subito\ScrapePage;
-use App\Actions\Targets\VerifyItemExists;
+use App\Actions\Drivers\Subito\VerifyItemExists;
 use App\DTO\ExtraFields\SubitoExtraFields;
 use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;

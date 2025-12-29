@@ -1,10 +1,10 @@
 <?php
 
+use App\Actions\Drivers\Subito\VerifyItemExists;
 use App\Actions\Targets\EnqueueDueTargets;
 use App\Actions\Targets\PreviewScrape;
 use App\Actions\Targets\ScrapeTarget;
 use App\Actions\Targets\UpdateGoneItems;
-use App\Actions\Targets\VerifyItemExists;
 use App\Console\Commands\ChromeKillCommand;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

@@ -1,0 +1,11 @@
+{
+    "agents": [
+        "codex"
+    ],
+    "editors": [
+        "codex",
+        "phpstorm"
+    ],
+    "guidelines": [],
+    "herd_mcp": true
+}

@@ -2,13 +2,14 @@
 
 namespace App\Actions\Drivers\Subito;
 
+use App\Actions\Drivers\Subito\Concerns\AcceptsCookieBanner;
 use HeadlessChromium\Page;
 use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsObject;
 
 class ScrapePage
 {
-    use AsObject;
+    use AcceptsCookieBanner, AsObject;
 
     public function handle(Page $page, string $url): Collection
     {
@@ -22,8 +23,7 @@ class ScrapePage
                 // Navigate to the current page
                 $page->navigate("$url&o=$currentPageIndex")->waitForNavigation();
 
-                // Accept Cookie Banner if present
-                $page->evaluate("document.querySelector('.didomi-continue-without-agreeing')?.click()");
+                $this->acceptCookieBanner($page);
 
                 // Scroll incrementally and extract items at each scroll position
                 $pageItems = $this->scrollAndExtractItems($page);

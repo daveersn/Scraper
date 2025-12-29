@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Actions\Targets;
+namespace App\Actions\Drivers\Subito;
 
+use App\Actions\Drivers\Subito\Concerns\AcceptsCookieBanner;
 use App\DTO\ScrapeRequestData;
 use App\Http\Integrations\Browser\Browser;
 use App\Models\Item;
@@ -16,7 +17,7 @@ class VerifyItemExists
 
     public $commandDescription = 'Checks if an item still exists.';
 
-    use AsAction;
+    use AcceptsCookieBanner, AsAction;
 
     public function __construct(
         private readonly ScraperRegistry $registry
@@ -26,11 +27,10 @@ class VerifyItemExists
     {
         $browser = app(Browser::class);
 
-        return $browser->wrapInPage(static function (Page $page) use ($request) {
+        return $browser->wrapInPage(function (Page $page) use ($request) {
             $page->navigate($request->url)->waitForNavigation();
 
-            // Accept Cookie Banner if present
-            $page->evaluate("document.querySelector('.didomi-continue-without-agreeing')?.click()");
+            $this->acceptCookieBanner($page);
 
             return $page->evaluate("document.querySelector('[class*=-info__id]') !== null")->getReturnValue();
         });

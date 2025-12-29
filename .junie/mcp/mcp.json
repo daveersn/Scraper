@@ -3,9 +3,18 @@
         "laravel-boost": {
             "command": "/Users/daviderosina/Library/Application Support/Herd/bin/php84",
             "args": [
-                "/Users/daviderosina/Sites/Scraper/artisan",
+                "/Users/daviderosina/Sites/scraper/artisan",
                 "boost:mcp"
             ]
+        },
+        "herd": {
+            "command": "/Users/daviderosina/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/daviderosina/Sites/scraper"
+            }
         }
     }
 }

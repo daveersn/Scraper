@@ -2,15 +2,15 @@
 
 namespace App\Actions\Targets;
 
-use App\DTO\ScrapeRequestData;
 use App\Enums\ItemStatus;
-use App\Models\Item;
+use App\Jobs\UpdateGoneItemChunkJob;
 use App\Models\Target;
 use App\Scraping\Drivers\Contracts\ChecksItemExistence;
 use App\Scraping\Drivers\ScraperDriver;
 use App\Scraping\ScraperRegistry;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class UpdateGoneItems
@@ -29,6 +29,7 @@ class UpdateGoneItems
     {
         $drivers = collect($this->registry->getDrivers());
 
+        // Get all drivers which can check item existence
         $drivers = $drivers
             ->map(function (ScraperDriver $driver) {
                 if (! ($driver instanceof ChecksItemExistence)) {
@@ -40,6 +41,7 @@ class UpdateGoneItems
             ->filter()
             ->all();
 
+        // Fetch all targets that have valid drivers, and load currently active items
         $targets = Target::query()
             ->whereIn('driver', $drivers)
             ->with('items',
@@ -48,20 +50,11 @@ class UpdateGoneItems
             ->get();
 
         $targets->each(function (Target $target) {
-            /** @var ChecksItemExistence $driver */
-            $driver = $this->registry->resolveFromType($target->driver);
-
-            $target->items->each(function (Item $item) use ($driver) {
-                $exists = $driver->itemExists(new ScrapeRequestData(url: $item->url));
-
-                if ($exists) {
-                    return;
-                }
-
-                $item->update([
-                    'status' => ItemStatus::GONE,
-                ]);
-            });
+            $target->items
+                ->chunk(25)
+                ->each(
+                    fn (Collection $chunk) => UpdateGoneItemChunkJob::dispatch($chunk, $target->driver)
+                );
         });
     }
 }
