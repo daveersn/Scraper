@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Targets\Resources\Items\Tables;
 
+use App\Filament\Resources\Targets\Pages\ManageTargetItems;
 use App\Models\Item;
 use App\Models\Scopes\IgnoredItemTargetScope;
 use Filament\Actions\Action;
@@ -33,7 +34,11 @@ class ItemsTable
                     ->label('Ignorato')
                     ->boolean()
                     ->getStateUsing(fn (Item $record) => $record->pivot->ignored)
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->visible(static function (ManageTargetItems $livewire) {
+                        $filterValue = data_get($livewire->getTableFilterState('ignored'), 'value');
+
+                        return is_numeric($filterValue) && (int) $filterValue === 0;
+                    }),
                 TextColumn::make('first_seen_at')
                     ->label('Scansionato il')
                     ->dateTime()
