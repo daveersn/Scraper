@@ -9,7 +9,6 @@ use App\Enums\ScraperDriverType;
 use App\Models\Item;
 use App\Scraping\Drivers\Contracts\ChecksItemExistence;
 use App\Scraping\ScraperRegistry;
-use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,20 +35,15 @@ class UpdateGoneItemChunkJob implements ShouldQueue
                 return;
             }
 
-            try {
-                $exists = $driver->itemExists(new ScrapeRequestData(url: $item->url));
+            $exists = $driver->itemExists(new ScrapeRequestData(url: $item->url));
 
+            if ($exists) {
                 return;
-                if ($exists) {
-                    return;
-                }
-
-                $item->update([
-                    'status' => ItemStatus::GONE,
-                ]);
-            } catch (Exception $e) {
-                report($e);
             }
+
+            $item->update([
+                'status' => ItemStatus::GONE,
+            ]);
         });
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Scraping\Drivers;
 
 use App\Actions\Drivers\Subito\ScrapePage;
-use App\Actions\Drivers\Subito\VerifyItemExists;
+use App\Actions\Drivers\Subito\VerifyItemExistence;
 use App\DTO\ExtraFields\SubitoExtraFields;
 use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
@@ -52,7 +52,7 @@ class SubitoScraperDriver extends ScraperDriver implements ChecksItemExistence
 
     public function itemExists(ScrapeRequestData $request): bool
     {
-        return VerifyItemExists::run($request);
+        return VerifyItemExistence::run($request);
     }
 
     public static function getExtraFieldsClass(): ?string

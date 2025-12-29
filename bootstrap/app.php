@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\Drivers\Subito\VerifyItemExists;
+use App\Actions\Drivers\Subito\VerifyItemExistence;
 use App\Actions\Targets\EnqueueDueTargets;
 use App\Actions\Targets\PreviewScrape;
 use App\Actions\Targets\ScrapeTarget;
@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ScrapeTarget::class,
         EnqueueDueTargets::class,
         UpdateGoneItems::class,
-        VerifyItemExists::class,
+        VerifyItemExistence::class,
     ])
     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
         $schedule->command(ChromeKillCommand::class)->dailyAt('03:00');

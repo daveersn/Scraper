@@ -8,7 +8,7 @@ use HeadlessChromium\Exception\BrowserConnectionFailed;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class ChromeSupervisorCommand extends Command
+class ChromeSuperviseCommand extends Command
 {
     protected $signature = 'chrome:supervise {--headless=1}';
 

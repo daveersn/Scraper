@@ -5,10 +5,7 @@ namespace App\Providers;
 use App\Http\Integrations\Browser\Browser;
 use HeadlessChromium\AutoDiscover;
 use HeadlessChromium\BrowserFactory;
-use HeadlessChromium\Exception\BrowserConnectionFailed;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
@@ -47,31 +44,20 @@ class ChromeServiceProvider extends ServiceProvider implements DeferrableProvide
             return $factory;
         });
 
-        $this->app->bind(Browser::class, function (Application $app) {
-            $socketPath = config('chrome.socket_file');
+        $this->app->bind(Browser::class, function () {
+            $socketFile = config('chrome.socket_file');
 
-            try {
-                $socket = trim(File::get($socketPath));
-            } catch (FileNotFoundException) {
-                $socket = null;
+            if (! File::exists($socketFile)) {
+                throw new \RuntimeException("Chrome socket file not found at '$socketFile'");
             }
 
+            $socket = trim(File::get($socketFile));
             if (blank($socket)) {
-                return $this->createBrowser(
-                    factory: $app->get(BrowserFactory::class),
-                    socketPath: $socketPath
-                );
+                throw new \RuntimeException("Chrome socket file '$socketFile' is empty");
             }
 
-            try {
-                // Core ChromePHP Browser
-                $browser = BrowserFactory::connectToBrowser($socket);
-            } catch (BrowserConnectionFailed) {
-                return $this->createBrowser(
-                    factory: $app->get(BrowserFactory::class),
-                    socketPath: $socketPath
-                );
-            }
+            // Core ChromePHP Browser
+            $browser = BrowserFactory::connectToBrowser($socket);
 
             // Our extended Browser with the core connection
             return new Browser($browser->getConnection());
@@ -102,15 +88,5 @@ class ChromeServiceProvider extends ServiceProvider implements DeferrableProvide
             })
             ->filter()
             ->first();
-    }
-
-    private function createBrowser(BrowserFactory $factory, string $socketPath): Browser
-    {
-        $browser = $factory->createBrowser([
-            'headless' => config('chrome.headless'),
-        ]);
-        File::put($socketPath, $browser->getSocketUri());
-
-        return new Browser($browser->getConnection());
     }
 }
