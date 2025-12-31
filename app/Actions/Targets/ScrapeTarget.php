@@ -5,6 +5,7 @@ namespace App\Actions\Targets;
 use App\DTO\ScrapedItemData;
 use App\DTO\ScrapeRequestData;
 use App\Enums\ItemStatus;
+use App\Enums\Queue;
 use App\Models\Item;
 use App\Models\Scopes\ActiveScope;
 use App\Models\Target;
@@ -25,6 +26,11 @@ class ScrapeTarget
     public $commandDescription = 'Perform Target scraping';
 
     private ?DateTimeInterface $now = null;
+
+    public function getJobQueue(): string
+    {
+        return Queue::BROWSER->value;
+    }
 
     public function handle(Target $target): Target
     {

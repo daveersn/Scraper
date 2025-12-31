@@ -55,7 +55,11 @@ class TargetItemAveragePriceChart extends ChartWidget
         }
 
         $prices = ItemPrice::query()
-            ->whereHas('item.targets', fn (Builder $query) => $query->whereKey($targetId))
+            ->whereHas('item.targets',
+                fn (Builder $query) => $query
+                    ->whereKey($targetId)
+                    ->where('item_target.ignored', false)
+            )
             ->orderBy('created_at')
             ->get(['id', 'price', 'created_at']);
 

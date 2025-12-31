@@ -22,7 +22,6 @@ class EnqueueDueTargets
             ->where(fn (Builder $query) => $query
                 ->whereNull('next_run_at')
                 ->orWhere('next_run_at', '<=', now()))
-                // TODO: Use specific queue
             ->each(fn (Target $target) => ScrapeTarget::dispatch($target));
     }
 
