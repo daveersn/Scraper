@@ -19,6 +19,8 @@ class TargetItemAveragePriceChart extends ChartWidget
 
     protected static bool $isLazy = false;
 
+    protected ?string $maxHeight = '350px';
+
     protected function getData(): array
     {
         $points = $this->getMonthlyAveragePrices();
@@ -41,6 +43,13 @@ class TargetItemAveragePriceChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'aspectRatio' => 1,
+        ];
     }
 
     /**

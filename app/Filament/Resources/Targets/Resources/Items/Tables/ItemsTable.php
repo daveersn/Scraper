@@ -19,6 +19,7 @@ class ItemsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('pivot_first_seen_at', 'desc')
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
@@ -39,15 +40,17 @@ class ItemsTable
 
                         return is_numeric($filterValue) && (int) $filterValue === 0;
                     }),
-                TextColumn::make('first_seen_at')
+                TextColumn::make('pivot_first_seen_at')
                     ->label('Scansionato il')
                     ->dateTime()
                     ->sortable()
+                    ->getStateUsing(fn (Item $record) => $record->pivot->first_seen_at)
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('last_seen_at')
+                TextColumn::make('pivot_last_seen_at')
                     ->label('Ultima scansione il')
                     ->dateTime('Y/m/d')
                     ->sortable()
+                    ->getStateUsing(fn (Item $record) => $record->pivot->last_seen_at)
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
